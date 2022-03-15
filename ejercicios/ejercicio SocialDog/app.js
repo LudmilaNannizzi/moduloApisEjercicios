@@ -21,3 +21,36 @@ window.addEventListener("click", (event) => {
 const openModal = (id) => {
   showModal();
 };
+
+
+
+const getDogs = async()=>{
+  const response = await fetch('http://my-json-server.typicode.com/matiasbenary/dbJsonDogs/dogs')
+  return await response.json() 
+}
+
+const renderHtml= (dogs) =>{
+    const mostrarCards = document.querySelector('#container')
+    mostrarCards.innerHTML = dogs.reduce((acc, dog) =>{
+        return ( 
+            acc +
+            `
+              <div class="card" onclick="openModal(1)">
+                <img src=${dog.img} alt="">
+                <h2>${dog.name}</h2>
+                <div class="card__footer"><i class="fas fa-paw"></i>${dog.like}</div>
+              </div>
+           
+            `
+        )
+        
+        }, "")      
+ }
+
+const renderCards = async () =>{
+  const dogs = await getDogs()
+  renderHtml(dogs)
+}
+
+
+renderCards()
